@@ -1,7 +1,38 @@
 angular.module('starter.controllers', [])
 
-.controller('MapCtrl', function($scope, $ionicLoading) {
+.controller('MapCtrl', function($scope, $ionicLoading, $ionicPopup) {
   //alert("hello");
+  var map, pointarray, heatmap;
+  var taxiData = [];
+  var points = [];
+  var markers = [];
+
+  function getData() {
+  search = location.search;
+  search = location.search.substring(1, 100);
+  if (search == "")
+  {
+    search = "stop";
+  }
+  url2 = 'http://api.hackfargo.co/calls/type/' + search + '?start=1-1-2010&end=12-1-2014';
+  //url2 = "/data.js"
+  $.getJSON(url2, function(data) {
+      for (i=0; i<data.length; i++)
+      {
+        taxiData.push(new google.maps.LatLng(data[i].Lat, data[i].Long));
+        points.push(data[i]);
+
+        if (i == 0){
+          address = points[0].Meta.Address;
+          console.log(address);
+        }
+      }
+      initialize();
+    });
+  }
+  getData();
+
+
 
   function initialize() {
     var mapOptions = {
@@ -19,12 +50,54 @@ angular.module('starter.controllers', [])
     });
 
     $scope.map = map;
+
+
+    var pointArray = new google.maps.MVCArray(taxiData);
+
+    heatmap = new google.maps.visualization.HeatmapLayer({
+      data: pointArray
+    });
+    heatmap.setMap(map);
+    heatmap.set('radius', 50);
+    $scope.heatmap = heatmap;
+
+    // add points
+    for (i=0; i<points.length; i++)
+    {
+      var m = new google.maps.Marker({
+          map:       map,
+          title:     points[i].Meta.Address + ": " + points[i].Description + " | " + points[i].Meta.GeoLookupType,
+          position:  new google.maps.LatLng(points[i].Lat,points[i].Long),
+      });
+      markers.push(m);
+    }
+    setAllMap(null); // hide markers by default
   }
+
+
+  function setAllMap(map) {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(map);
+    }
+  }
+
+
+  $scope.toggleHeatmap = function() {
+    $scope.heatmap.setMap($scope.heatmap.getMap() ? null : $scope.map);
+    console.log("toggle");
+  }
+  $scope.heatMapCheck = { checked: true };  //check by default
 
 
   google.maps.event.addDomListener(window, 'load', initialize);
   
   
+  $scope.showInfo = function(){
+    $ionicPopup.alert({
+              title: 'FargoPD Traffic Stops',
+              template: '<p>Heat map of Fargo Police traffic stops 2012-2014</p><p>Created by <a href="https://twitter.com/muhasaho" target="_blank">@muhasaho</a> using <a href="https://twitter.com/HackFargo" target="_blank">@HackFargo</a> API and <a href="http://ionicframework.com/" target="_blank">Ionic</a> Framework</p>'
+            })
+  }
 
   $scope.centerOnMe = function() {
     if(!$scope.map) {

@@ -28,13 +28,32 @@
   <body ng-controller="MapCtrl">
 
     <ion-pane>
+
       <ion-header-bar class="bar-stable">
-        <h1 class="title">Fargo Police Traffic Stops</h1>
-        <button class="button"><i class="icon ion-gear-b"></i></button>
+        <label class="toggle">
+         <input ng-checked="true" ng-change="toggleHeatmap()" ng-model="heatMapCheck.checked" type="checkbox">
+         <div class="track">
+           <div class="handle"></div>
+         </div>
+        </label>
+        <h1 class="title">Police Stops</h1>
+        <button ng-click="showInfo()" class="button"><i class="icon ion-ios7-information-outline"></i></button>
       </ion-header-bar>
+
       <ion-content scroll="false">
         <div id="map"></div>
       </ion-content>
+
     </ion-pane>
+    <!-- <ion-footer-bar class="bar-stable">
+      <label class="toggle">
+         <input ng-checked="true" ng-change="toggleHeatmap()" ng-model="heatMapCheck.checked" type="checkbox">
+         <div class="track">
+           <div class="handle"></div>
+         </div>
+      </label>
+      
+
+    </ion-footer-bar> -->
   </body>
 </html>
