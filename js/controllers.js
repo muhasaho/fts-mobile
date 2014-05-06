@@ -14,9 +14,10 @@ angular.module('starter.controllers', [])
   {
     search = "stop";
   }
-  url2 = 'http://api.hackfargo.co/calls/type/' + search + '?start=1-1-2010&end=12-1-2014';
-  //url2 = "/data.js"
+  //url2 = 'http://api.hackfargo.co/calls/type/' + search + '?start=1-1-2010&end=12-1-2014';
+  url2 = "js/data.js"
   $.getJSON(url2, function(data) {
+    console.log(data.length);
       for (i=0; i<data.length; i++)
       {
         taxiData.push(new google.maps.LatLng(data[i].Lat, data[i].Long));
@@ -58,7 +59,7 @@ angular.module('starter.controllers', [])
       data: pointArray
     });
     heatmap.setMap(map);
-    heatmap.set('radius', 50);
+    heatmap.set('radius', 20);
     $scope.heatmap = heatmap;
 
     // add points
