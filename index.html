@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="starter">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
+    <title>FTS</title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -19,15 +19,21 @@
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=visualization"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
   </head>
-  <body ng-app="starter">
+  <body ng-controller="MapCtrl">
 
     <ion-pane>
       <ion-header-bar class="bar-stable">
         <h1 class="title">Fargo Police Traffic Stops</h1>
+        <button class="button"><i class="icon ion-gear-b"></i></button>
       </ion-header-bar>
-      <ion-content>
+      <ion-content scroll="false">
+        <div id="map"></div>
       </ion-content>
     </ion-pane>
   </body>
