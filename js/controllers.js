@@ -36,7 +36,7 @@ angular.module('starter.controllers', [])
 
   function initialize() {
     var mapOptions = {
-      center: new google.maps.LatLng(46.85895748955729, -96.79799879663642),
+      center: new google.maps.LatLng(46.87895748955729, -96.79799879663642),
       zoom: 12,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
